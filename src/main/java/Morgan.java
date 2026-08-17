@@ -10,8 +10,31 @@ public class Morgan {
             + "| |  | | (_) | | | (_| | (_| | | | |\n"
             + "|_|  |_|\\___/|_|  \\__, |\\__,_|_| |_|\n"
             + "                  |___/             \n";
-    private static final String[] tasks = new String[100];
     private static int taskCount = 0;
+    private static class Task {
+        private String name;
+        private boolean flag;
+
+        public Task(String name) {
+            this.name = name;
+            this.flag = false;
+        }
+
+        public void mark() {
+            this.flag = true;
+        }
+
+        public void unmark() {
+            this.flag = false;
+        }
+
+        @Override
+        public String toString() {
+            String mark = flag ? "\uD83D\uDC1F" : "\uD83C\uDFA3";
+            return String.format("[%s] %s", mark, name);
+        }
+    }
+    private static Task[] tasks = new Task[100];
 
     public static void main(String[] args) {
         //1.Greet
@@ -38,11 +61,25 @@ public class Morgan {
 
             if (input.equalsIgnoreCase("list")) {
                 for (int i = 0; i < taskCount; i++) {
-                    System.out.printf(" \uD83C\uDFA3%d.%s\n", i + 1, tasks[i]);
+                    System.out.printf(" %d.%s\n", i + 1, tasks[i]);
+                }
+            } else if (input.startsWith("mark ")) {
+                int idx = Integer.parseInt(input.split(" ")[1]) - 1;
+                if (idx >= 0 && idx < taskCount) {
+                    tasks[idx].mark();
+                    System.out.println(" Meow~ Morgan has just caught a fish!\uD83C\uDFA3");
+                    System.out.println("    " + tasks[idx]);
+                }
+            } else if (input.startsWith("unmark ")) {
+                int idx = Integer.parseInt(input.split(" ")[1]) - 1;
+                if (idx >= 0 && idx < taskCount) {
+                    tasks[idx].unmark();
+                    System.out.println(" A fish has skipped, Meow!(TAT)");
+                    System.out.println("    " + tasks[idx]);
                 }
             } else {
                 if (taskCount < tasks.length) {
-                    tasks[taskCount] = input;
+                    tasks[taskCount] = new Task(input);
                     taskCount++;
                     System.out.println(" \uD83D\uDC3Eadded: " + input);
                 } else {
