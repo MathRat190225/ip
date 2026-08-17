@@ -48,7 +48,7 @@ public class Morgan {
                         System.out.println(" Meow~ Morgan has just caught a fish!\uD83C\uDFA3");
                         System.out.println("    " + tasks[idx]);
                     } else {
-                        throw new MorganException(" Meow~ I cannot catch a fish that doesn't exist!ฅ( ̀皿 ́ฅ)");
+                        throw new MorganException(" Meow~ I cannot catch a fish that doesn't exist!(=ಠωಠ=)");
                     }
                 } else if (input.startsWith("unmark ")) {
                     int idx = Integer.parseInt(input.split(" ")[1]) - 1;
@@ -59,26 +59,50 @@ public class Morgan {
                     } else {
                         throw new MorganException(" Meow~ I haven't seen that fish yet.");
                     }
+                } else if (input.startsWith("delete")) {
+                    int idx = Integer.parseInt(input.split("\\s+")[1]) - 1;
+                    if (idx >= 0 && idx < taskCount) {
+                        Task removedTask = tasks[idx];
+                        for (int i = idx; i < taskCount - 1; i++) {
+                            tasks[i] = tasks[i + 1];
+                        }
+                        tasks[taskCount - 1] = null;
+                        taskCount--;
+
+                        System.out.println(" Meow~ Alright, I will set this fish free.");
+                        System.out.println("    " + removedTask);
+                        System.out.println(" Meow~ There are only " + taskCount + " fishes now.ฅ(>﹏<ฅ)");
+                    } else {
+                        throw new MorganException("Meow~ That fish doesn't exist in our tank!");
+                    }
                 } else if (input.startsWith("todo ")) {
                     String name = input.substring(5).trim();
                     if (name.isEmpty()){
-                        throw new MorganException("Meow? Is that a fish?");
+                        throw new MorganException("Meow? Is that a fish?(=ﾟωﾟ=)");
                     } else {
                         addTask(new ToDo(name));
                     }
                 } else if (input.startsWith("deadline ")) {
                     String[] parts = input.substring(9).split(" /by ");
-                    addTask(new Deadline(parts[0].trim(), parts[1].trim()));
+                    if (parts[0].isEmpty()){
+                        throw new MorganException("Meow? Is that a fish?(=ﾟωﾟ=)");
+                    } else{
+                        addTask(new Deadline(parts[0].trim(), parts[1].trim()));
+                    }
                 } else if (input.startsWith("event ")) {
                     String[] parts = input.substring(6).split(" /from | /to ");
-                    addTask(new Event(parts[0].trim(), parts[1].trim(), parts[2].trim()));
+                    if (parts[0].isEmpty()){
+                        throw new MorganException("Meow? Is that a fish?(=ﾟωﾟ=)");
+                    } else{
+                        addTask(new Event(parts[0].trim(), parts[1].trim(), parts[2].trim()));
+                    }
                 } else {
-                    throw new MorganException("Meow? Is that a fish?");
+                    throw new MorganException("Meow? Is that a fish?(=ﾟωﾟ=)");
                 }
             } catch (MorganException e) {
                 System.out.println(" " + e.getMessage());
             } catch (Exception e){
-                System.out.println(" Meow! That's not a fish! ฅ( ̀⌂ ́ฅ)");
+                System.out.println(" Meow! That's not a fish!(=｀ω´=)");
             }finally{
                 System.out.println(DIVIDER);
             }
