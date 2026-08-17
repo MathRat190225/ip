@@ -11,29 +11,6 @@ public class Morgan {
             + "|_|  |_|\\___/|_|  \\__, |\\__,_|_| |_|\n"
             + "                  |___/             \n";
     private static int taskCount = 0;
-    private static class Task {
-        private String name;
-        private boolean flag;
-
-        public Task(String name) {
-            this.name = name;
-            this.flag = false;
-        }
-
-        public void mark() {
-            this.flag = true;
-        }
-
-        public void unmark() {
-            this.flag = false;
-        }
-
-        @Override
-        public String toString() {
-            String mark = flag ? "\uD83D\uDC1F" : "\uD83C\uDFA3";
-            return String.format("[%s] %s", mark, name);
-        }
-    }
     private static Task[] tasks = new Task[100];
 
     public static void main(String[] args) {
@@ -74,17 +51,18 @@ public class Morgan {
                 int idx = Integer.parseInt(input.split(" ")[1]) - 1;
                 if (idx >= 0 && idx < taskCount) {
                     tasks[idx].unmark();
-                    System.out.println(" A fish has skipped, Meow!(TAT)");
+                    System.out.println(" A fish has skipped, Meow!ฅ(=T ω T=)ฅ");
                     System.out.println("    " + tasks[idx]);
                 }
-            } else {
-                if (taskCount < tasks.length) {
-                    tasks[taskCount] = new Task(input);
-                    taskCount++;
-                    System.out.println(" \uD83D\uDC3Eadded: " + input);
-                } else {
-                    System.out.println("Meow! That's too much for me!(Maximum: 100)");
-                }
+            } else if (input.startsWith("todo ")) {
+                String name = input.substring(5).trim();
+                addTask(new ToDo(name));
+            } else if (input.startsWith("deadline ")) {
+                String[] parts = input.substring(9).split(" /by ");
+                addTask(new Deadline(parts[0].trim(), parts[1].trim()));
+            } else if (input.startsWith("event ")) {
+                String[] parts = input.substring(6).split(" /from | /to ");
+                addTask(new Event(parts[0].trim(), parts[1].trim(), parts[2].trim()));
             }
         }
 
@@ -94,5 +72,17 @@ public class Morgan {
         System.out.println(DIVIDER);
 
         sc.close();
+    }
+
+    private static void addTask(Task task) {
+        if (taskCount < tasks.length) {
+            tasks[taskCount] = task;
+            taskCount++;
+            System.out.println(" \uD83D\uDC3E A fresh fish has just come, Meow~");
+            System.out.println("   " + task);
+            System.out.println(" Meow~ There are " + taskCount + " fishes now!(=^･ω･^=)");
+        } else {
+            System.out.println(" Meow! That's too much for me! (Maximum: 100)");
+        }
     }
 }
