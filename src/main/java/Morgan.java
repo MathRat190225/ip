@@ -10,13 +10,35 @@ public class Morgan {
             + "|_|  |_|\\___/|_|  \\__, |\\__,_|_| |_|\n"
             + "                  |___/             \n";
     public static void main(String[] args) {
+        //1.Greet
         System.out.println(DIVIDER);
         System.out.println(BANNER);
         System.out.println(DIVIDER);
-        System.out.println("Meow~ I'm " + CHATBOT_NAME + "\uD83D\uDC3E");
-        System.out.println("What can I do for you? Meow~");
+        System.out.println(" Meow~ I'm " + CHATBOT_NAME + "\uD83D\uDC3E");
+        System.out.println(" What can I do for you? Meow~");
         System.out.println(DIVIDER);
-        System.out.println("Meow~ Bye bye, human! Don't forget to feed me~");
+
+        Scanner sc = new Scanner(System.in);
+
+        //2.Echo
+        while (sc.hasNextLine()) {
+            String input = sc.nextLine();
+
+            //exit
+            if (input.equals("bye")) {
+                break;
+            }
+
+            //echo
+            System.out.println(DIVIDER);
+            System.out.println(" " + input + " \uD83D\uDC3E");
+            System.out.println(DIVIDER);
+        }
+
+        //3.Exit
+        System.out.println(" Meow~ Bye bye, human! Don't forget to feed me~");
         System.out.println(DIVIDER);
+
+        sc.close();
     }
 }
