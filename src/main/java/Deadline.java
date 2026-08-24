@@ -5,6 +5,10 @@ public class Deadline extends Task {
         this.date = date;
     }
 
+    public String  getDate() {
+        return this.date;
+    }
+
     @Override
     public String toString() {
         return String.format("[D]%s (by: %s)", super.toString(), date);

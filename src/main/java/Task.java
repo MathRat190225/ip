@@ -15,6 +15,14 @@ public class Task {
         this.flag = false;
     }
 
+    public boolean isDone() {
+        return this.flag;
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
     @Override
     public String toString() {
         String mark = flag ? "\uD83D\uDC1F" : "\uD83C\uDFA3";
