@@ -72,10 +72,10 @@ public class Storage {
             return "T | " + isDoneStr + " | " + task.getName();
         } else if (task instanceof Deadline) {
             Deadline d = (Deadline) task;
-            return "D | " + isDoneStr + " | " + d.getName() + " | " + d.getDate();
+            return "D | " + isDoneStr + " | " + d.getName() + " | " + d.getDateForStorage();
         } else if (task instanceof Event) {
             Event e = (Event) task;
-            return "E | " + isDoneStr + " | " + e.getName() + " | " + e.getStart() + " | " + e.getEnd();
+            return "E | " + isDoneStr + " | " + e.getName() + " | " + e.getStartForStorage() + " | " + e.getEndForStorage();
         }
         return "";
     }

@@ -1,16 +1,28 @@
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.util.Locale;
+
 public class Deadline extends Task {
-    private String date;
-    public Deadline(String name, String date) {
+    private LocalDate date;
+    private static final DateTimeFormatter INPUT_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH);
+    private static final DateTimeFormatter OUTPUT_FORMATTER = DateTimeFormatter.ofPattern("MMM dd yyyy", Locale.ENGLISH);
+
+    public Deadline(String name, String dateStr) throws DateTimeParseException {
         super(name);
-        this.date = date;
+        this.date = LocalDate.parse(dateStr.trim(), INPUT_FORMATTER);
     }
 
-    public String  getDate() {
+    public LocalDate getDate() {
         return this.date;
+    }
+
+    public String getDateForStorage() {
+        return this.date.format(INPUT_FORMATTER);
     }
 
     @Override
     public String toString() {
-        return String.format("[D]%s (by: %s)", super.toString(), date);
+        return String.format("[D]%s (by: %s)", super.toString(), date.format(OUTPUT_FORMATTER));
     }
 }
