@@ -1,3 +1,10 @@
+package morgan.storage;
+
+import morgan.task.Deadline;
+import morgan.task.Event;
+import morgan.task.Task;
+import morgan.task.ToDo;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;

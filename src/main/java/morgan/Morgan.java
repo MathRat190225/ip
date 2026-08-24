@@ -1,3 +1,11 @@
+package morgan;
+
+import morgan.parser.Parser;
+import morgan.storage.Storage;
+import morgan.exception.MorganException;
+import morgan.task.TaskList;
+import morgan.ui.Ui;
+
 public class Morgan {
     private final Storage storage;
     private final Ui ui;
