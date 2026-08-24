@@ -100,18 +100,29 @@ public class Morgan {
                     }
                 } else if (input.startsWith("deadline ")) {
                     String[] parts = input.substring(9).split(" /by ");
-                    if (parts[0].isEmpty()){
+                    if (parts.length < 2 || parts[0].trim().isEmpty()){
                         throw new MorganException("Meow? Is that a fish?(=ﾟωﾟ=)");
-                    } else{
-                        addTask(new Deadline(parts[0].trim(), parts[1].trim()));
+                    } else {
+                        try {
+                            addTask(new Deadline(parts[0].trim(), parts[1].trim()));
+                        } catch (java.time.format.DateTimeParseException e) {
+                            throw new MorganException("Meow! Please use the date format: yyyy-MM-dd (e.g., 2026-08-31)");
+                        }
                     }
                 } else if (input.startsWith("event ")) {
-                    String[] parts = input.substring(6).split(" /from | /to ");
-                    if (parts[0].isEmpty()){
+                    String[] parts = input.substring(6).split(" /(from|to) ");
+                    if (parts.length < 3 || parts[0].trim().isEmpty()){
                         throw new MorganException("Meow? Is that a fish?(=ﾟωﾟ=)");
-                    } else{
-                        addTask(new Event(parts[0].trim(), parts[1].trim(), parts[2].trim()));
+                    } else {
+                        try {
+                            addTask(new Event(parts[0].trim(), parts[1].trim(), parts[2].trim()));
+                        } catch (java.time.format.DateTimeParseException e) {
+                            throw new MorganException("Meow! Please use date format: yyyy-MM-dd HHmm (e.g., 2026-08-31 1400)");
+                        }
                     }
+                } else if (input.startsWith("dates ")) {
+                    String dateStr = input.substring(6).trim();
+                    handleDates(dateStr);
                 } else {
                     throw new MorganException("Meow? Is that a fish?(=ﾟωﾟ=)");
                 }
@@ -142,6 +153,27 @@ public class Morgan {
             System.out.println(" Meow~ There are " + taskCount + " fishes now!(=^･ω･^=)");
         } else {
             System.out.println(" Meow! That's too much for me! (Maximum: 100)");
+        }
+    }
+
+    private static void handleDates(String dateStr) throws MorganException {
+        try {
+            java.time.LocalDate targetDate = java.time.LocalDate.parse(dateStr, java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+            System.out.println(" Meow~ Here are the fish swimming on " + targetDate + ":");
+
+            int count = 0;
+            for (int i = 0; i < taskCount; i++) {
+                if (tasks[i].isOnDate(targetDate)) {
+                    count++;
+                    System.out.printf("   %d.%s\n", count, tasks[i]);
+                }
+            }
+
+            if (count == 0) {
+                System.out.println("   No fish caught on this day, Meow! ฅ(=T ω T=)ฅ");
+            }
+        } catch (java.time.format.DateTimeParseException e) {
+            throw new MorganException("Meow! Please use format: dates yyyy-MM-dd (e.g., dates 2026-09-09)");
         }
     }
 
