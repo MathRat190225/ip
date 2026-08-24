@@ -1,4 +1,7 @@
 import java.util.Scanner;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class Morgan {
     private static final String DIVIDER = "____________________________________________________________";
@@ -13,7 +16,17 @@ public class Morgan {
     private static int taskCount = 0;
     private static Task[] tasks = new Task[100];
 
+    private static Storage storage = new Storage("./data/morgan.txt");
+
     public static void main(String[] args) {
+        List<Task> loadedTasks = storage.load();
+        for (Task task : loadedTasks) {
+            if (taskCount < tasks.length) {
+                tasks[taskCount] = task;
+                taskCount++;
+            }
+        }
+
         //1.Greet
         System.out.println(DIVIDER);
         System.out.println(BANNER);
@@ -45,6 +58,7 @@ public class Morgan {
                     int idx = Integer.parseInt(input.split(" ")[1]) - 1;
                     if (idx >= 0 && idx < taskCount) {
                         tasks[idx].mark();
+                        saveTasks();
                         System.out.println(" Meow~ Morgan has just caught a fish!\uD83C\uDFA3");
                         System.out.println("    " + tasks[idx]);
                     } else {
@@ -54,6 +68,7 @@ public class Morgan {
                     int idx = Integer.parseInt(input.split(" ")[1]) - 1;
                     if (idx >= 0 && idx < taskCount) {
                         tasks[idx].unmark();
+                        saveTasks();
                         System.out.println(" A fish has skipped, Meow!ฅ(=T ω T=)ฅ");
                         System.out.println("    " + tasks[idx]);
                     } else {
@@ -68,6 +83,7 @@ public class Morgan {
                         }
                         tasks[taskCount - 1] = null;
                         taskCount--;
+                        saveTasks();
 
                         System.out.println(" Meow~ Alright, I will set this fish free.");
                         System.out.println("    " + removedTask);
@@ -120,11 +136,17 @@ public class Morgan {
         if (taskCount < tasks.length) {
             tasks[taskCount] = task;
             taskCount++;
+            saveTasks();
             System.out.println(" \uD83D\uDC3E A fresh fish has just come, Meow~");
             System.out.println("   " + task);
             System.out.println(" Meow~ There are " + taskCount + " fishes now!(=^･ω･^=)");
         } else {
             System.out.println(" Meow! That's too much for me! (Maximum: 100)");
         }
+    }
+
+    private static void saveTasks() {
+        List<Task> currentTasks = new ArrayList<>(Arrays.asList(tasks).subList(0, taskCount));
+        storage.save(currentTasks);
     }
 }
