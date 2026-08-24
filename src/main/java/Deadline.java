@@ -22,6 +22,11 @@ public class Deadline extends Task {
     }
 
     @Override
+    public boolean isOnDate(LocalDate date) {
+        return this.date.equals(date);
+    }
+
+    @Override
     public String toString() {
         return String.format("[D]%s (by: %s)", super.toString(), date.format(OUTPUT_FORMATTER));
     }

@@ -1,3 +1,4 @@
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -18,6 +19,13 @@ public class Event extends Task {
 
     public LocalDateTime getStart() {
         return this.start;
+    }
+
+    @Override
+    public boolean isOnDate(LocalDate date) {
+        LocalDate startDate = start.toLocalDate();
+        LocalDate endDate = end.toLocalDate();
+        return !date.isBefore(startDate) && !date.isAfter(endDate);
     }
 
     public LocalDateTime getEnd() {

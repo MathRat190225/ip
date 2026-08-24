@@ -1,3 +1,5 @@
+import java.time.LocalDate;
+
 public class Task {
     protected String name;
     protected boolean flag;
@@ -5,6 +7,10 @@ public class Task {
     public Task(String name) {
         this.name = name;
         this.flag = false;
+    }
+
+    public boolean isOnDate(LocalDate date) {
+        return false;
     }
 
     public void mark() {
