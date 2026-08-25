@@ -8,6 +8,7 @@ import morgan.ui.Ui;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.List;
 import java.util.Locale;
 
 /**
@@ -109,6 +110,20 @@ public class Parser {
                 }
             } catch (DateTimeParseException e) {
                 throw new MorganException("Meow! Please use format: dates yyyy-MM-dd (e.g., dates 2026-09-09)");
+            }
+        } else if (trimmedInput.startsWith("find")) {
+            String keyword = trimmedInput.substring(4).trim();
+            if (keyword.isEmpty()) {
+                throw new MorganException("Meow~ Please state the keyword to search for!");
+            }
+            List<Task> matchingTasks = tasks.findTaskWithKeyword(keyword);
+            if (matchingTasks.isEmpty()) {
+                System.out.println(" No matching fish found, Meow! (=T w T=)");
+            } else {
+                System.out.println(" Meow~ Here are the matching fishes in your list:");
+                for (int i = 0; i < matchingTasks.size(); i++) {
+                    System.out.printf(" %d.%s\n", i + 1, matchingTasks.get(i));
+                }
             }
         } else {
             throw new MorganException("Meow? Is that a fish?");

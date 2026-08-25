@@ -124,4 +124,20 @@ public class TaskList {
         }
         return result;
     }
+
+    /**
+     * Finds and returns a list of tasks whose descriptions contain the specified keyword.
+     *
+     * @param keyword The substring to search for in task descriptions.
+     * @return A list of tasks matching the search keyword.
+     */
+    public List<Task> findTaskWithKeyword(String keyword) {
+        List<Task> result = new ArrayList<>();
+        for (Task task : tasks) {
+            if (task.getName().contains(keyword)) {
+                result.add(task);
+            }
+        }
+        return result;
+    }
 }
