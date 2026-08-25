@@ -22,6 +22,7 @@ public class TaskList {
 
     /**
      * Constructs a TaskList initialized with an existing list of task.
+     *
      * @param tasks A list of Task objects to populate the list.
      */
     public TaskList(List<Task> tasks) {
@@ -30,6 +31,7 @@ public class TaskList {
 
     /**
      * Gets the contents of the taskList.
+     *
      * @return The tasks in the list.
      */
     public List<Task> getTasks() {
@@ -38,6 +40,7 @@ public class TaskList {
 
     /**
      * Gets the size of the list.
+     *
      * @return The index of the size.
      */
     public int size() {
@@ -46,6 +49,7 @@ public class TaskList {
 
     /**
      * Gets the task at the specific position.
+     *
      * @param index The index of the position.
      * @return The task at the position.
      * @throws MorganException If the index is invalid.
@@ -59,6 +63,7 @@ public class TaskList {
 
     /**
      * Adds a new task in the task list.
+     *
      * @param task The task object to be added.
      */
     public void add(Task task) {
@@ -67,6 +72,7 @@ public class TaskList {
 
     /**
      * Deletes specific task from the list.
+     *
      * @param index The position of the task.
      * @return The task that is removed.
      * @throws MorganException If the index is invalid.
@@ -79,6 +85,7 @@ public class TaskList {
 
     /**
      * Marks the specific task as done.
+     *
      * @param index The position of the task.
      * @return The task that is marked.
      * @throws MorganException If the index is invalid.
@@ -91,6 +98,7 @@ public class TaskList {
 
     /**
      * Marks the specific task as undone.
+     *
      * @param index The position of the task.
      * @return The task that is unmarked.
      * @throws MorganException If the index is invalid.
@@ -103,6 +111,7 @@ public class TaskList {
 
     /**
      * Finds the tasks happen on specific date.
+     *
      * @param date The date entered by the user.
      * @return The tasks happen on the date.
      */

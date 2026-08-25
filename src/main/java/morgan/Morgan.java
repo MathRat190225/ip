@@ -18,6 +18,7 @@ public class Morgan {
 
     /**
      * Constructs a new Morgan instance with the specified data storage path.
+     *
      * @param filePath the path where task data is persisted.
      */
     public Morgan(String filePath) {
@@ -60,6 +61,7 @@ public class Morgan {
 
     /**
      * Entry point of the application.
+     *
      * @param args Command line arguments.
      */
     public static void main(String[] args) {

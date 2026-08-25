@@ -12,6 +12,7 @@ public class Task {
 
     /**
      * Constructs a Task instance with specified name.
+     *
      * @param name The textual description of the task.
      */
     public Task(String name) {
@@ -21,6 +22,7 @@ public class Task {
 
     /**
      * Checks if a task happens on the date.
+     *
      * @param date A date entered by the user.
      * @return True if the task is happened on that dates, otherwise false.
      */
@@ -44,6 +46,7 @@ public class Task {
 
     /**
      * Checks if the task is done.
+     *
      * @return True if the task is done, otherwise false.
      */
     public boolean isDone() {
@@ -52,6 +55,7 @@ public class Task {
 
     /**
      * Gets the name of the task.
+     *
      * @return The name of the task.
      */
     public String getName() {

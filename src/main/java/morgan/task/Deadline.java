@@ -15,7 +15,8 @@ public class Deadline extends Task {
 
     /**
      * Constructs a Deadline task with specified description and date.
-     * @param name The textual description of the task.
+     *
+     * @param name    The textual description of the task.
      * @param dateStr The completion date of the task.
      * @throws DateTimeParseException If the completion date is not in the right format.
      */
@@ -26,6 +27,7 @@ public class Deadline extends Task {
 
     /**
      * Gets the completion date of the task.
+     *
      * @return The completion date of the task.
      */
     public LocalDate getDate() {
@@ -34,6 +36,7 @@ public class Deadline extends Task {
 
     /**
      * Gets the completion date of the task from the storage file.
+     *
      * @return The completion date of the task.
      */
     public String getDateForStorage() {
@@ -42,6 +45,7 @@ public class Deadline extends Task {
 
     /**
      * Checks if a task happens on the date.
+     *
      * @param date A date entered by the user.
      * @return True if the task is happened on that dates, otherwise false.
      */

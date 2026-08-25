@@ -21,6 +21,7 @@ public class Storage {
 
     /**
      * Constructs a Storage instance associated with specified file path.
+     *
      * @param filePath The local file system task where data is saved and loaded.
      */
     public Storage(String filePath) {
@@ -30,12 +31,13 @@ public class Storage {
     /**
      * Loads the saved tasks from the data file.
      * If the file does not exist, create an empty file automatically.
+     *
      * @return A list of tasks that loaded from the storage files.
      */
     public List<Task> load() {
         List<Task> tasks = new ArrayList<>();
         File file = new File(filePath);
-        
+
         if (!file.exists()) {
             try {
                 file.getParentFile().mkdirs();
@@ -45,7 +47,7 @@ public class Storage {
             }
             return tasks;
         }
-        
+
         try (Scanner sc = new Scanner(file)) {
             while (sc.hasNextLine()) {
                 String line = sc.nextLine();
@@ -55,7 +57,7 @@ public class Storage {
 
                 Task task = getTask(line);
                 tasks.add(task);
-            } 
+            }
         } catch (Exception e) {
             System.out.println("Meow! Unable to load file!");
         }
@@ -66,7 +68,7 @@ public class Storage {
         String[] parts = line.split("\\s*\\|\\s*");
         String type = parts[0];
         boolean isDone = parts[1].equals("1");
-        String desc =  parts[2];
+        String desc = parts[2];
         Task task;
 
         if (type.equals("T")) {
@@ -100,6 +102,7 @@ public class Storage {
     /**
      * Saves the current list of tasks to the storage file.
      * Updates the existing file content.
+     *
      * @param tasks The list of tasks to be saved.
      */
     public void save(List<Task> tasks) {

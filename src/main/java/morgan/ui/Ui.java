@@ -56,6 +56,7 @@ public class Ui {
 
     /**
      * Displays an error message.
+     *
      * @param message The error message string to be displayed.
      */
     public void showError(String message) {
@@ -71,6 +72,7 @@ public class Ui {
 
     /**
      * Reads a line of command inputs from the user.
+     *
      * @return The raw command string entered by the user.
      */
     public String readCommand() {
@@ -79,6 +81,7 @@ public class Ui {
 
     /**
      * Determines whether there is a next command.
+     *
      * @return True if another line of user input exists, false otherwise.
      */
     public boolean hasNextCommand() {
