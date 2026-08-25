@@ -33,7 +33,7 @@ public class Morgan {
             } catch (MorganException e) {
                 ui.showError(e.getMessage());
             } catch (Exception e) {
-                ui.showError("Meow! That's not a fish!(=｀ω´=)");
+                ui.showError("Meow! That's not a fish!");
             } finally {
                 if (!isExit) {
                     ui.showLine();

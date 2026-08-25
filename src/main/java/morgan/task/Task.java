@@ -33,7 +33,7 @@ public class Task {
 
     @Override
     public String toString() {
-        String mark = flag ? "\uD83D\uDC1F" : "\uD83C\uDFA3";
+        String mark = flag ? "X" : " ";
         return String.format("[%s] %s", mark, name);
     }
 }

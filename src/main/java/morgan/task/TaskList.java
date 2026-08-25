@@ -27,7 +27,7 @@ public class TaskList {
 
     public Task get(int index) throws MorganException {
         if (index < 0 || index >= tasks.size()) {
-            throw new MorganException("Meow~ That fish doesn't exist in our tank!(=ಠωಠ=)");
+            throw new MorganException("Meow~ That fish doesn't exist in our tank!");
         }
         return tasks.get(index);
     }
