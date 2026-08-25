@@ -1,0 +1,46 @@
+package morgan.ui;
+
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+public class UiTest {
+
+    private final ByteArrayOutputStream outputStreamCaptor = new ByteArrayOutputStream();
+    private final PrintStream originalOut = System.out;
+
+    @BeforeEach
+    public void setUp() {
+        System.setOut(new PrintStream(outputStreamCaptor));
+    }
+
+    @AfterEach
+    public void tearDown() {
+        System.setOut(originalOut);
+    }
+
+    @Test
+    public void showGoodbye_printsGoodbyeMessage() {
+        Ui ui = new Ui();
+        ui.showGoodbye();
+
+        String output = outputStreamCaptor.toString();
+
+        assertTrue(output.contains("Meow~ Bye bye, human! Don't forget to feed me~"));
+    }
+
+    @Test
+    public void showLine_printsDivider() {
+        Ui ui = new Ui();
+        ui.showLine();
+
+        String output = outputStreamCaptor.toString();
+
+        assertTrue(output.contains("____________________________________________________________"));
+    }
+}
