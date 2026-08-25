@@ -10,7 +10,20 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Locale;
 
+/**
+ * Parses user input into executable commands for Morgan application.
+ * Responsible for the validating command syntax and extracting relevant arguments.
+ */
 public class Parser {
+    /**
+     * Parse the full command string entered by the user into specific command objects.
+     * @param input The raw input typed by the user.
+     * @param tasks The list of the tasks.
+     * @param ui The Ui of the chatbox.
+     * @param storage The auto storage texts.
+     * @return True if received exit message, otherwise false.
+     * @throws MorganException If the command word is unrecognized or parameters are invalid.
+     */
     public static boolean parseAndExecute(String input, TaskList tasks, Ui ui, Storage storage) throws MorganException {
         String trimmedInput = input.trim();
         if (trimmedInput.isEmpty()) {

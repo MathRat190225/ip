@@ -6,11 +6,20 @@ import morgan.exception.MorganException;
 import morgan.task.TaskList;
 import morgan.ui.Ui;
 
+/**
+ * Represents the main entry point for the Morgan chatbox application.
+ * Handles application initialization and the main execution loop.
+ */
+
 public class Morgan {
     private final Storage storage;
     private final Ui ui;
     private TaskList tasks;
 
+    /**
+     * Constructs a new Morgan instance with the specified data storage path.
+     * @param filePath the path where task data is persisted.
+     */
     public Morgan(String filePath) {
         ui = new Ui();
         storage = new Storage(filePath);
@@ -22,6 +31,11 @@ public class Morgan {
         }
     }
 
+    /**
+     * Runs the main application loop.
+     * Reads commands from user input.
+     * Processes commands until the exit command is received.
+     */
     public void run() {
         ui.showWelcome();
         boolean isExit = false;
@@ -44,6 +58,10 @@ public class Morgan {
         ui.closeScanner();
     }
 
+    /**
+     * Entry point of the application.
+     * @param args Command line arguments.
+     */
     public static void main(String[] args) {
         new Morgan("./data/morgan.txt").run();
     }
