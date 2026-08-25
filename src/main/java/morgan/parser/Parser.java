@@ -31,7 +31,7 @@ public class Parser {
             int idx = parseIndex(trimmedInput);
             Task task = tasks.mark(idx);
             storage.save(tasks.getTasks());
-            System.out.println(" Meow~ Morgan has just caught a fish!\uD83C\uDFA3");
+            System.out.println(" Meow~ Morgan has just caught a fish!");
             System.out.println("    " + task);
         } else if (trimmedInput.startsWith("unmark")) {
             int idx = parseIndex(trimmedInput);
@@ -45,11 +45,11 @@ public class Parser {
             storage.save(tasks.getTasks());
             System.out.println(" Meow~ Alright, I will set this fish free.");
             System.out.println("    " + removedTask);
-            System.out.println(" Meow~ There are only " + tasks.size() + " fishes now.ฅ(>﹏<ฅ)");
+            System.out.println(" Meow~ There are only " + tasks.size() + " fishes now.(>_<)");
         } else if (trimmedInput.startsWith("todo ")) {
             String name = trimmedInput.substring(5).trim();
             if (name.isEmpty()) {
-                throw new MorganException("Meow? Is that a fish?(=ﾟωﾟ=)");
+                throw new MorganException("Meow? Is that a fish?");
             }
             Task todo = new ToDo(name);
             tasks.add(todo);
@@ -58,7 +58,7 @@ public class Parser {
         } else if (trimmedInput.startsWith("deadline ")) {
             String[] parts = trimmedInput.substring(9).split(" /by ");
             if (parts.length < 2 || parts[0].trim().isEmpty()) {
-                throw new MorganException("Meow? Is that a fish?(=ﾟωﾟ=)");
+                throw new MorganException("Meow? Is that a fish?");
             }
             try {
                 Task deadline = new Deadline(parts[0].trim(), parts[1].trim());
@@ -71,7 +71,7 @@ public class Parser {
         } else if (trimmedInput.startsWith("event ")) {
             String[] parts = trimmedInput.substring(6).split(" /(from|to) ");
             if (parts.length < 3 || parts[0].trim().isEmpty()) {
-                throw new MorganException("Meow? Is that a fish?(=ﾟωﾟ=)");
+                throw new MorganException("Meow? Is that a fish?");
             }
             try {
                 Task event = new Event(parts[0].trim(), parts[1].trim(), parts[2].trim());
@@ -91,13 +91,13 @@ public class Parser {
                     System.out.printf("   %d.%s\n", i + 1, matchingTasks.get(i));
                 }
                 if (matchingTasks.isEmpty()) {
-                    System.out.println("   No fish caught on this day, Meow! ฅ(=T ω T=)ฅ");
+                    System.out.println("   No fish caught on this day, Meow! (=T w T=)");
                 }
             } catch (DateTimeParseException e) {
                 throw new MorganException("Meow! Please use format: dates yyyy-MM-dd (e.g., dates 2026-09-09)");
             }
         } else {
-            throw new MorganException("Meow? Is that a fish?(=ﾟωﾟ=)");
+            throw new MorganException("Meow? Is that a fish?");
         }
 
         return false;
@@ -116,8 +116,8 @@ public class Parser {
     }
 
     private static void showAddTaskMessage(Task task, int totalTasks) {
-        System.out.println(" \uD83D\uDC3E A fresh fish has just come, Meow~");
+        System.out.println(" A fresh fish has just come, Meow~");
         System.out.println("   " + task);
-        System.out.println(" Meow~ There are " + totalTasks + " fishes now!(=^･ω･^=)");
+        System.out.println(" Meow~ There are " + totalTasks + " fishes now!(=^-w-^=)");
     }
 }

@@ -23,7 +23,7 @@ public class Ui {
         System.out.println(DIVIDER);
         System.out.println(BANNER);
         System.out.println(DIVIDER);
-        System.out.println(" Meow~ I'm " + CHATBOT_NAME + "\uD83D\uDC3E");
+        System.out.println(" Meow~ I'm " + CHATBOT_NAME);
         System.out.println(" What can I do for you? Meow~");
         System.out.println(DIVIDER);
     }
