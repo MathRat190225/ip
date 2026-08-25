@@ -12,14 +12,26 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * Saves the chat automatically into a file.
+ * Loads the tasks from a file.
+ */
 public class Storage {
     private final String filePath;
-    
+
+    /**
+     * Constructs a Storage instance associated with specified file path.
+     * @param filePath The local file system task where data is saved and loaded.
+     */
     public Storage(String filePath) {
         this.filePath = filePath;
     }
-    
-    //Load
+
+    /**
+     * Loads the saved tasks from the data file.
+     * If the file does not exist, create an empty file automatically.
+     * @return A list of tasks that loaded from the storage files.
+     */
     public List<Task> load() {
         List<Task> tasks = new ArrayList<>();
         File file = new File(filePath);
@@ -71,7 +83,6 @@ public class Storage {
         return task;
     }
 
-    //Save
     private String toFileFormat(Task task) {
         String isDoneStr = task.isDone() ? "1" : "0";
         if (task instanceof ToDo) {
@@ -86,6 +97,11 @@ public class Storage {
         return "";
     }
 
+    /**
+     * Saves the current list of tasks to the storage file.
+     * Updates the existing file content.
+     * @param tasks The list of tasks to be saved.
+     */
     public void save(List<Task> tasks) {
         try (FileWriter fw = new FileWriter(filePath)) {
             for (Task task : tasks) {
