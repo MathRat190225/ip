@@ -18,9 +18,10 @@ public class Event extends Task {
 
     /**
      * Constructs an event task with specified description, start date and end date.
-     * @param name The textual description of the event task.
+     *
+     * @param name     The textual description of the event task.
      * @param startStr The start date of the task.
-     * @param endStr The end date of the task.
+     * @param endStr   The end date of the task.
      * @throws DateTimeParseException If the date is in invalid format.
      */
     public Event(String name, String startStr, String endStr) throws DateTimeParseException {
@@ -31,6 +32,7 @@ public class Event extends Task {
 
     /**
      * Gets the start date of the task.
+     *
      * @return The start date of the task.
      */
     public LocalDateTime getStart() {
@@ -39,6 +41,7 @@ public class Event extends Task {
 
     /**
      * Checks if a task happens on the date.
+     *
      * @param date A date entered by the user.
      * @return True if the task is happened on that dates, otherwise false.
      */
@@ -51,6 +54,7 @@ public class Event extends Task {
 
     /**
      * Gets the end date of the task.
+     *
      * @return The end date of the task.
      */
     public LocalDateTime getEnd() {
@@ -59,6 +63,7 @@ public class Event extends Task {
 
     /**
      * Gets the start date of the task from the storage file.
+     *
      * @return The start date of the task.
      */
     public String getStartForStorage() {
@@ -67,6 +72,7 @@ public class Event extends Task {
 
     /**
      * Gets the end date of the task from the storage file.
+     *
      * @return The end date of the task.
      */
     public String getEndForStorage() {
