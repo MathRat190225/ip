@@ -1,5 +1,6 @@
 package morgan.parser;
 
+import morgan.command.*;
 import morgan.exception.MorganException;
 import morgan.storage.Storage;
 import morgan.task.*;
@@ -8,145 +9,126 @@ import morgan.ui.Ui;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.util.List;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 /**
- * Parses user input into executable commands for Morgan application.
- * Responsible for the validating command syntax and extracting relevant arguments.
+ * Parses user input into executable commands for Morgan application using HashMap lookup.
  */
 public class Parser {
+
+    @FunctionalInterface
+    private interface CommandFunction {
+        Command parse(String arguments) throws MorganException;
+    }
+
+    private static final Map<String, CommandFunction> COMMAND_MAP = new HashMap<>();
+
+    static {
+        COMMAND_MAP.put("bye", args -> new ExitCommand());
+        COMMAND_MAP.put("list", args -> new ListCommand());
+        COMMAND_MAP.put("mark", args -> new MarkCommand(parseIndex(args), true));
+        COMMAND_MAP.put("unmark", args -> new MarkCommand(parseIndex(args), false));
+        COMMAND_MAP.put("delete", args -> new DeleteCommand(parseIndex(args)));
+        COMMAND_MAP.put("todo", Parser::parseTodo);
+        COMMAND_MAP.put("deadline", Parser::parseDeadline);
+        COMMAND_MAP.put("event", Parser::parseEvent);
+        COMMAND_MAP.put("dates", Parser::parseDates);
+        COMMAND_MAP.put("find", Parser::parseFind);
+    }
+
     /**
-     * Parse the full command string entered by the user into specific command objects.
+     * Parses user input and returns the corresponding Command object.
      *
-     * @param input   The raw input typed by the user.
-     * @param tasks   The list of the tasks.
-     * @param ui      The Ui of the chatbox.
-     * @param storage The auto storage texts.
-     * @return True if received exit message, otherwise false.
-     * @throws MorganException If the command word is unrecognized or parameters are invalid.
+     * @param fullCommand Full line typed by user.
+     * @return Abstract Command object to execute.
+     * @throws MorganException If input is invalid.
      */
-    public static boolean parseAndExecute(String input, TaskList tasks, Ui ui, Storage storage) throws MorganException {
-        String trimmedInput = input.trim();
+    public static Command parse(String fullCommand) throws MorganException {
+        String trimmedInput = fullCommand.trim();
         if (trimmedInput.isEmpty()) {
-            return false;
-        }
-
-        if (trimmedInput.equalsIgnoreCase("bye")) {
-            return true;
-        }
-
-        ui.showLine();
-
-        if (trimmedInput.equalsIgnoreCase("list")) {
-            for (int i = 0; i < tasks.size(); i++) {
-                System.out.printf(" %d.%s\n", i + 1, tasks.get(i));
-            }
-        } else if (trimmedInput.startsWith("mark")) {
-            int idx = parseIndex(trimmedInput);
-            Task task = tasks.mark(idx);
-            storage.save(tasks.getTasks());
-            System.out.println(" Meow~ Morgan has just caught a fish!");
-            System.out.println("    " + task);
-        } else if (trimmedInput.startsWith("unmark")) {
-            int idx = parseIndex(trimmedInput);
-            Task task = tasks.unmark(idx);
-            storage.save(tasks.getTasks());
-            System.out.println(" A fish has skipped, Meow!ฅ(=T ω T=)ฅ");
-            System.out.println("    " + task);
-        } else if (trimmedInput.startsWith("delete")) {
-            int idx = parseIndex(trimmedInput);
-            Task removedTask = tasks.delete(idx);
-            storage.save(tasks.getTasks());
-            System.out.println(" Meow~ Alright, I will set this fish free.");
-            System.out.println("    " + removedTask);
-            System.out.println(" Meow~ There are only " + tasks.size() + " fishes now.(>_<)");
-        } else if (trimmedInput.startsWith("todo ")) {
-            String name = trimmedInput.substring(5).trim();
-            if (name.isEmpty()) {
-                throw new MorganException("Meow? Is that a fish?");
-            }
-            Task todo = new ToDo(name);
-            tasks.add(todo);
-            storage.save(tasks.getTasks());
-            showAddTaskMessage(todo, tasks.size());
-        } else if (trimmedInput.startsWith("deadline ")) {
-            String[] parts = trimmedInput.substring(9).split(" /by ");
-            if (parts.length < 2 || parts[0].trim().isEmpty()) {
-                throw new MorganException("Meow? Is that a fish?");
-            }
-            try {
-                Task deadline = new Deadline(parts[0].trim(), parts[1].trim());
-                tasks.add(deadline);
-                storage.save(tasks.getTasks());
-                showAddTaskMessage(deadline, tasks.size());
-            } catch (DateTimeParseException e) {
-                throw new MorganException("Meow! Please use date format: yyyy-MM-dd (e.g., 2026-08-31)");
-            }
-        } else if (trimmedInput.startsWith("event ")) {
-            String[] parts = trimmedInput.substring(6).split(" /(from|to) ");
-            if (parts.length < 3 || parts[0].trim().isEmpty()) {
-                throw new MorganException("Meow? Is that a fish?");
-            }
-            try {
-                Task event = new Event(parts[0].trim(), parts[1].trim(), parts[2].trim());
-                tasks.add(event);
-                storage.save(tasks.getTasks());
-                showAddTaskMessage(event, tasks.size());
-            } catch (DateTimeParseException e) {
-                throw new MorganException("Meow! Please use date format: yyyy-MM-dd HHmm (e.g., 2026-08-31 1400)");
-            }
-        } else if (trimmedInput.startsWith("dates ")) {
-            String dateStr = trimmedInput.substring(6).trim();
-            try {
-                LocalDate targetDate = LocalDate.parse(dateStr, DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH));
-                System.out.println(" Meow~ Here are the fish swimming on " + targetDate + ":");
-                var matchingTasks = tasks.findTasksOnDate(targetDate);
-                for (int i = 0; i < matchingTasks.size(); i++) {
-                    System.out.printf("   %d.%s\n", i + 1, matchingTasks.get(i));
-                }
-                if (matchingTasks.isEmpty()) {
-                    System.out.println("   No fish caught on this day, Meow! (=T w T=)");
-                }
-            } catch (DateTimeParseException e) {
-                throw new MorganException("Meow! Please use format: dates yyyy-MM-dd (e.g., dates 2026-09-09)");
-            }
-        } else if (trimmedInput.startsWith("find")) {
-            String keyword = trimmedInput.substring(4).trim();
-            if (keyword.isEmpty()) {
-                throw new MorganException("Meow~ Please state the keyword to search for!");
-            }
-            List<Task> matchingTasks = tasks.findTaskWithKeyword(keyword);
-            if (matchingTasks.isEmpty()) {
-                System.out.println(" No matching fish found, Meow! (=T w T=)");
-            } else {
-                System.out.println(" Meow~ Here are the matching fishes in your list:");
-                for (int i = 0; i < matchingTasks.size(); i++) {
-                    System.out.printf(" %d.%s\n", i + 1, matchingTasks.get(i));
-                }
-            }
-        } else {
             throw new MorganException("Meow? Is that a fish?");
         }
 
-        return false;
+        String[] parts = trimmedInput.split("\\s+", 2);
+        String commandWord = parts[0].toLowerCase();
+        String arguments = parts.length > 1 ? parts[1].trim() : "";
+
+        CommandFunction fn = COMMAND_MAP.get(commandWord);
+        if (fn == null) {
+            throw new MorganException("Meow? Is that a fish?");
+        }
+
+        return fn.parse(arguments);
     }
 
-    private static int parseIndex(String input) throws MorganException {
-        String[] parts = input.split("\\s+");
-        if (parts.length < 2) {
+    /**
+     * Legacy compatible parseAndExecute method.
+     */
+    public static boolean parseAndExecute(String input, TaskList tasks, Ui ui, Storage storage) throws MorganException {
+        Command command = parse(input);
+        return command.execute(tasks, ui, storage);
+    }
+
+    private static int parseIndex(String args) throws MorganException {
+        if (args.isEmpty()) {
             throw new MorganException("Meow~ Please state which fish number!");
         }
         try {
-            return Integer.parseInt(parts[1]) - 1;
+            return Integer.parseInt(args) - 1;
         } catch (NumberFormatException e) {
             throw new MorganException("Meow~ That index is not a valid number!");
         }
     }
 
-    private static void showAddTaskMessage(Task task, int totalTasks) {
-        System.out.println(" A fresh fish has just come, Meow~");
-        System.out.println("   " + task);
-        System.out.println(" Meow~ There are " + totalTasks + " fishes now!(=^-w-^=)");
+    private static Command parseTodo(String args) throws MorganException {
+        if (args.isEmpty()) {
+            throw new MorganException("Meow? Is that a fish?");
+        }
+        return new AddCommand(new ToDo(args));
+    }
+
+    private static Command parseDeadline(String args) throws MorganException {
+        String[] parts = args.split(" /by ");
+        if (parts.length < 2 || parts[0].trim().isEmpty()) {
+            throw new MorganException("Meow? Is that a fish?");
+        }
+        try {
+            return new AddCommand(new Deadline(parts[0].trim(), parts[1].trim()));
+        } catch (DateTimeParseException e) {
+            throw new MorganException("Meow! Please use date format: yyyy-MM-dd (e.g., 2026-08-31)");
+        }
+    }
+
+    private static Command parseEvent(String args) throws MorganException {
+        String[] parts = args.split(" /(from|to) ");
+        if (parts.length < 3 || parts[0].trim().isEmpty()) {
+            throw new MorganException("Meow? Is that a fish?");
+        }
+        try {
+            return new AddCommand(new Event(parts[0].trim(), parts[1].trim(), parts[2].trim()));
+        } catch (DateTimeParseException e) {
+            throw new MorganException("Meow! Please use date format: yyyy-MM-dd HHmm (e.g., 2026-08-31 1400)");
+        }
+    }
+
+    private static Command parseDates(String args) throws MorganException {
+        if (args.isEmpty()) {
+            throw new MorganException("Meow! Please use format: dates yyyy-MM-dd (e.g., dates 2026-09-09)");
+        }
+        try {
+            LocalDate targetDate = LocalDate.parse(args, DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH));
+            return new FindDateCommand(targetDate);
+        } catch (DateTimeParseException e) {
+            throw new MorganException("Meow! Please use format: dates yyyy-MM-dd (e.g., dates 2026-09-09)");
+        }
+    }
+
+    private static Command parseFind(String args) throws MorganException {
+        if (args.isEmpty()) {
+            throw new MorganException("Meow~ Please state the keyword to search for!");
+        }
+        return new FindKeywordCommand(args);
     }
 }

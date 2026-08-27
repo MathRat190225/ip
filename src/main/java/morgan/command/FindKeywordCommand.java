@@ -1,0 +1,45 @@
+package morgan.command;
+
+import morgan.exception.MorganException;
+import morgan.storage.Storage;
+import morgan.task.Task;
+import morgan.task.TaskList;
+import morgan.ui.Ui;
+
+import java.util.List;
+
+public class FindKeywordCommand extends Command {
+    private final String keyword;
+
+    /**
+     * Constructs find command with the given keyword.
+     *
+     * @param keyword The keyword entered by the user.
+     */
+    public FindKeywordCommand(String keyword) {
+        this.keyword = keyword;
+    }
+
+    /**
+     * Executes the find command using the given tasks, ui, and storage.
+     *
+     * @param tasks The list of tasks.
+     * @param ui The ui.
+     * @param storage The storage file.
+     * @return False.
+     */
+    @Override
+    public boolean execute(TaskList tasks, Ui ui, Storage storage) {
+        ui.showLine();
+        List<Task> matchingTasks = tasks.findTaskWithKeyword(keyword);
+        if (matchingTasks.isEmpty()) {
+            System.out.println(" No matching fish found, Meow! (=T w T=)");
+        } else {
+            System.out.println(" Meow~ Here are the matching fishes in your list:");
+            for (int i = 0; i < matchingTasks.size(); i++) {
+                System.out.printf(" %d.%s\n", i + 1, matchingTasks.get(i));
+            }
+        }
+        return false;
+    }
+}
