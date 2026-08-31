@@ -6,6 +6,9 @@ import morgan.task.Task;
 import morgan.task.TaskList;
 import morgan.ui.Ui;
 
+/**
+ * Represents a command in the application.
+ */
 public class DeleteCommand extends Command {
     private final int index;
 

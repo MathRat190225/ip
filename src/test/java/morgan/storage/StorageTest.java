@@ -1,19 +1,20 @@
 package morgan.storage;
 
-import morgan.task.Deadline;
-import morgan.task.Event;
-import morgan.task.Task;
-import morgan.task.ToDo;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import morgan.task.Deadline;
+import morgan.task.Event;
+import morgan.task.Task;
+import morgan.task.ToDo;
 
 public class StorageTest {
 

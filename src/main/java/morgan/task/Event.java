@@ -10,11 +10,12 @@ import java.util.Locale;
  * Represents a task that needs to be completed before specified starts and end time.
  */
 public class Event extends Task {
+    private static final DateTimeFormatter INPUT_FORMATTER =
+            DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm", Locale.ENGLISH);
+    private static final DateTimeFormatter OUTPUT_FORMATTER =
+            DateTimeFormatter.ofPattern("MMM dd yyyy, h:mm a", Locale.ENGLISH);
     private LocalDateTime start;
     private LocalDateTime end;
-
-    private static final DateTimeFormatter INPUT_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm", Locale.ENGLISH);
-    private static final DateTimeFormatter OUTPUT_FORMATTER = DateTimeFormatter.ofPattern("MMM dd yyyy, h:mm a", Locale.ENGLISH);
 
     /**
      * Constructs an event task with specified description, start date and end date.

@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 /**
  * Handles user interactions for the chatbot application.
- * Resposible for reading user inputs and displaying formatted messages,
+ * Responsible for reading user inputs and displaying formatted messages,
  * error alerts and divider lines.
  */
 public class Ui {

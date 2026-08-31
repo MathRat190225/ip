@@ -1,8 +1,8 @@
 package morgan;
 
+import morgan.exception.MorganException;
 import morgan.parser.Parser;
 import morgan.storage.Storage;
-import morgan.exception.MorganException;
 import morgan.task.TaskList;
 import morgan.ui.Ui;
 
@@ -10,7 +10,6 @@ import morgan.ui.Ui;
  * Represents the main entry point for the Morgan chatbox application.
  * Handles application initialization and the main execution loop.
  */
-
 public class Morgan {
     private final Storage storage;
     private final Ui ui;

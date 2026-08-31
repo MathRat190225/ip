@@ -5,6 +5,9 @@ import morgan.storage.Storage;
 import morgan.task.TaskList;
 import morgan.ui.Ui;
 
+/**
+ * Represents a command in the application.
+ */
 public abstract class Command {
     /**
      * Executes the command using the given tasks, ui, and storage.

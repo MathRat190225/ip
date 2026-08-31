@@ -4,6 +4,9 @@ import morgan.storage.Storage;
 import morgan.task.TaskList;
 import morgan.ui.Ui;
 
+/**
+ * Represents a command in the application.
+ */
 public class ExitCommand extends Command {
     /**
      * Executes the exit command using the given tasks, ui, and storage.
