@@ -37,26 +37,10 @@ public class Ui {
     }
 
     /**
-     * Displays the welcome messages.
-     */
-    public void showWelcome() {
-        showToUser("Meow~ I'm " + CHATBOT_NAME, "What can I do for you? Meow~");
-    }
-
-    /**
      * Displays the exit message.
      */
     public void showGoodbye() {
         showToUser("Meow~ Bye bye, human! Don't forget to feed me~");
-    }
-
-    /**
-     * Displays an error message.
-     *
-     * @param message The error message string to be displayed.
-     */
-    public void showError(String message) {
-        showToUser(" " + message);
     }
 
     /**

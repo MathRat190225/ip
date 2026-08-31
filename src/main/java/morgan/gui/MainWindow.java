@@ -40,7 +40,7 @@ public class MainWindow extends AnchorPane {
     public void setMorgan(Morgan m) {
         morgan = m;
         dialogContainer.getChildren().add(
-                DialogBox.getMorganDialog("Meow~ I'm Morgan. What can I do for you? Meow~", morganImage)
+                DialogBox.getMorganDialog("Meow~ I'm Morgan. What can I do for you?", morganImage)
         );
     }
 
