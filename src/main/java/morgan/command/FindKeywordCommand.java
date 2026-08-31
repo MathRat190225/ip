@@ -32,14 +32,13 @@ public class FindKeywordCommand extends Command {
      */
     @Override
     public boolean execute(TaskList tasks, Ui ui, Storage storage) {
-        ui.showLine();
         List<Task> matchingTasks = tasks.findTaskWithKeyword(keyword);
         if (matchingTasks.isEmpty()) {
-            System.out.println(" No matching fish found, Meow! (=T w T=)");
+            ui.showToUser(" No matching fish found, Meow! (=T w T=)");
         } else {
-            System.out.println(" Meow~ Here are the matching fishes in your list:");
+            ui.showToUser(" Meow~ Here are the matching fishes in your list:");
             for (int i = 0; i < matchingTasks.size(); i++) {
-                System.out.printf(" %d.%s\n", i + 1, matchingTasks.get(i));
+                ui.showToUser(String.format(" %d.%s", i + 1, matchingTasks.get(i)));
             }
         }
         return false;

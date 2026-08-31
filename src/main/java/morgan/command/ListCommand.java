@@ -19,9 +19,13 @@ public class ListCommand extends Command {
      */
     @Override
     public boolean execute(TaskList tasks, Ui ui, Storage storage) throws MorganException {
-        ui.showLine();
+        if (tasks.size() == 0) {
+            ui.showToUser(" Meow~ No fish in your pond yet!");
+            return false;
+        }
+        ui.showToUser(" Meow~ Here are the fishes in your list:");
         for (int i = 0; i < tasks.size(); i++) {
-            System.out.printf(" %d.%s\n", i + 1, tasks.get(i));
+            ui.showToUser(String.format(" %d.%s", i + 1, tasks.get(i)));
         }
         return false;
     }

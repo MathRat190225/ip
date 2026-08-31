@@ -1,57 +1,53 @@
 package morgan.ui;
 
-import java.util.Scanner;
-
 /**
  * Handles user interactions for the chatbot application.
- * Responsible for reading user inputs and displaying formatted messages,
- * error alerts and divider lines.
+ * Responsible for formatting messages, error alerts, and capturing response output for the GUI.
  */
 public class Ui {
-    private static final String DIVIDER = "____________________________________________________________";
     private static final String CHATBOT_NAME = "Morgan";
-    private static final String BANNER =
-            " __  __                            \n"
-                    + "|  \\/  | ___  _ __ __ _  __ _ _ __  \n"
-                    + "| |\\/| |/ _ \\| '__/ _` |/ _` | '_ \\ \n"
-                    + "| |  | | (_) | | | (_| | (_| | | | |\n"
-                    + "|_|  |_|\\___/|_|  \\__, |\\__,_|_| |_|\n"
-                    + "                  |___/             \n";
-
-    private final Scanner scanner;
+    private final StringBuilder responseBuffer = new StringBuilder();
 
     /**
-     * Constructs Ui instance and initializes the input reader.
+     * Constructs a Ui instance.
      */
     public Ui() {
-        this.scanner = new Scanner(System.in);
+    }
+
+    /**
+     * Appends message lines to the response buffer.
+     *
+     * @param messages The lines of messages to append.
+     */
+    public void showToUser(String... messages) {
+        for (String m : messages) {
+            responseBuffer.append(m).append("\n");
+        }
+    }
+
+    /**
+     * Returns the accumulated response text and clears the internal buffer.
+     *
+     * @return The response string collected since the last flush.
+     */
+    public String flushResponse() {
+        String result = responseBuffer.toString().trim();
+        responseBuffer.setLength(0);
+        return result;
     }
 
     /**
      * Displays the welcome messages.
      */
     public void showWelcome() {
-        System.out.println(DIVIDER);
-        System.out.println(BANNER);
-        System.out.println(DIVIDER);
-        System.out.println(" Meow~ I'm " + CHATBOT_NAME);
-        System.out.println(" What can I do for you? Meow~");
-        System.out.println(DIVIDER);
+        showToUser("Meow~ I'm " + CHATBOT_NAME, "What can I do for you? Meow~");
     }
 
     /**
      * Displays the exit message.
      */
     public void showGoodbye() {
-        System.out.println(" Meow~ Bye bye, human! Don't forget to feed me~");
-        System.out.println(DIVIDER);
-    }
-
-    /**
-     * Displays the horizontal divider line for message formating.
-     */
-    public void showLine() {
-        System.out.println(DIVIDER);
+        showToUser("Meow~ Bye bye, human! Don't forget to feed me~");
     }
 
     /**
@@ -60,38 +56,13 @@ public class Ui {
      * @param message The error message string to be displayed.
      */
     public void showError(String message) {
-        System.out.println(" " + message);
+        showToUser(" " + message);
     }
 
     /**
      * Displays the loading error.
      */
     public void showLoadingError() {
-        System.out.println(" Meow! Unable to load save file! Starting with empty task list.");
-    }
-
-    /**
-     * Reads a line of command inputs from the user.
-     *
-     * @return The raw command string entered by the user.
-     */
-    public String readCommand() {
-        return scanner.nextLine();
-    }
-
-    /**
-     * Determines whether there is a next command.
-     *
-     * @return True if another line of user input exists, false otherwise.
-     */
-    public boolean hasNextCommand() {
-        return scanner.hasNextLine();
-    }
-
-    /**
-     * Closes the input reader.
-     */
-    public void closeScanner() {
-        scanner.close();
+        showToUser("Meow! Unable to load save file! Starting with empty task list.");
     }
 }
