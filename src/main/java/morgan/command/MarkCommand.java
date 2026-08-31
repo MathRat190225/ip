@@ -35,15 +35,14 @@ public class MarkCommand extends Command {
      */
     @Override
     public boolean execute(TaskList tasks, Ui ui, Storage storage) throws MorganException {
-        ui.showLine();
         Task task = isMark ? tasks.mark(index) : tasks.unmark(index);
         storage.save(tasks.getTasks());
         if (isMark) {
-            System.out.println(" Meow~ Morgan has just caught a fish!");
+            ui.showToUser(" Meow~ Morgan has just caught a fish!");
         } else {
-            System.out.println(" A fish has skipped, Meow!ฅ(=T ω T=)ฅ");
+            ui.showToUser(" A fish has skipped, Meow!ฅ(=T ω T=)ฅ");
         }
-        System.out.println("    " + task);
+        ui.showToUser("    " + task);
         return false;
     }
 }

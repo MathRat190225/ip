@@ -34,13 +34,4 @@ public class UiTest {
         assertTrue(output.contains("Meow~ Bye bye, human! Don't forget to feed me~"));
     }
 
-    @Test
-    public void showLine_printsDivider() {
-        Ui ui = new Ui();
-        ui.showLine();
-
-        String output = outputStreamCaptor.toString();
-
-        assertTrue(output.contains("____________________________________________________________"));
-    }
 }

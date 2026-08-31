@@ -32,12 +32,13 @@ public class DeleteCommand extends Command {
      */
     @Override
     public boolean execute(TaskList tasks, Ui ui, Storage storage) throws MorganException {
-        ui.showLine();
         Task removedTask = tasks.delete(index);
         storage.save(tasks.getTasks());
-        System.out.println(" Meow~ Alright, I will set this fish free.");
-        System.out.println("    " + removedTask);
-        System.out.println(" Meow~ There are only " + tasks.size() + " fishes now.(>_<)");
+        ui.showToUser(
+                " Meow~ Alright, I will set this fish free.",
+                "    " + removedTask,
+                " Meow~ There are only " + tasks.size() + " fishes now.(>_<)"
+        );
         return false;
     }
 }

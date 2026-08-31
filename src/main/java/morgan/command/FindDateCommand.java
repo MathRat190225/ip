@@ -31,14 +31,13 @@ public class FindDateCommand extends Command {
      */
     @Override
     public boolean execute(TaskList tasks, Ui ui, Storage storage) {
-        ui.showLine();
-        System.out.println(" Meow~ Here are the fish swimming on " + targetDate + ":");
+        ui.showToUser(" Meow~ Here are the fish swimming on " + targetDate + ":");
         var matchingTasks = tasks.findTasksOnDate(targetDate);
         for (int i = 0; i < matchingTasks.size(); i++) {
-            System.out.printf("   %d.%s\n", i + 1, matchingTasks.get(i));
+            ui.showToUser(String.format("   %d.%s", i + 1, matchingTasks.get(i)));
         }
         if (matchingTasks.isEmpty()) {
-            System.out.println("   No fish caught on this day, Meow! (=T w T=)");
+            ui.showToUser("   No fish caught on this day, Meow! (=T w T=)");
         }
         return false;
     }

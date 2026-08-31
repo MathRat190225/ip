@@ -1,5 +1,6 @@
 package morgan;
 
+import morgan.command.Command;
 import morgan.exception.MorganException;
 import morgan.parser.Parser;
 import morgan.storage.Storage;
@@ -7,13 +8,21 @@ import morgan.task.TaskList;
 import morgan.ui.Ui;
 
 /**
- * Represents the main entry point for the Morgan chatbox application.
- * Handles application initialization and the main execution loop.
+ * Represents the main entry point for the Morgan chatbot application.
+ * Handles application initialization and input execution for CLI and GUI interfaces.
  */
 public class Morgan {
     private final Storage storage;
     private final Ui ui;
     private TaskList tasks;
+    private String commandType;
+
+    /**
+     * Constructs a new Morgan instance using the default data storage path.
+     */
+    public Morgan() {
+        this("./data/morgan.txt");
+    }
 
     /**
      * Constructs a new Morgan instance with the specified data storage path.
@@ -32,38 +41,31 @@ public class Morgan {
     }
 
     /**
-     * Runs the main application loop.
-     * Reads commands from user input.
-     * Processes commands until the exit command is received.
+     * Generates a response for the user's chat message.
+     *
+     * @param input Full command line entered by the user in the GUI.
+     * @return Execution response text to be displayed in the GUI.
      */
-    public void run() {
-        ui.showWelcome();
-        boolean isExit = false;
+    public String getResponse(String input) {
+        try {
+            Command c = Parser.parse(input);
+            boolean isExit = c.execute(tasks, ui, storage);
+            commandType = c.getClass().getSimpleName();
 
-        while (!isExit && ui.hasNextCommand()) {
-            String fullCommand = ui.readCommand();
-            try {
-                isExit = Parser.parseAndExecute(fullCommand, tasks, ui, storage);
-            } catch (MorganException e) {
-                ui.showError(e.getMessage());
-            } catch (Exception e) {
-                ui.showError("Meow! That's not a fish!");
-            } finally {
-                if (!isExit) {
-                    ui.showLine();
-                }
+            if (isExit) {
+                ui.showGoodbye();
             }
+            return ui.flushResponse();
+        } catch (MorganException e) {
+            commandType = "Error";
+            return e.getMessage();
+        } catch (Exception e) {
+            commandType = "Error";
+            return "Meow! That's not a fish! " + e.getMessage();
         }
-        ui.showGoodbye();
-        ui.closeScanner();
     }
 
-    /**
-     * Entry point of the application.
-     *
-     * @param args Command line arguments.
-     */
-    public static void main(String[] args) {
-        new Morgan("./data/morgan.txt").run();
+    public String getCommandType() {
+        return commandType;
     }
 }

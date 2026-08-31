@@ -30,12 +30,13 @@ public class AddCommand extends Command {
      */
     @Override
     public boolean execute(TaskList tasks, Ui ui, Storage storage) {
-        ui.showLine();
         tasks.add(task);
         storage.save(tasks.getTasks());
-        System.out.println(" A fresh fish has just come, Meow~");
-        System.out.println("   " + task);
-        System.out.println(" Meow~ There are " + tasks.size() + " fishes now!(=^-w-^=)");
+        ui.showToUser(
+                " A fresh fish has just come, Meow~",
+                "   " + task,
+                " Meow~ There are " + tasks.size() + " fishes now!(=^-w-^=)"
+        );
         return false;
     }
 }
