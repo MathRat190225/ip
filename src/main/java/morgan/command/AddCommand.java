@@ -1,11 +1,13 @@
 package morgan.command;
 
-import morgan.exception.MorganException;
 import morgan.storage.Storage;
 import morgan.task.Task;
 import morgan.task.TaskList;
 import morgan.ui.Ui;
 
+/**
+ * Represents a command in the application.
+ */
 public class AddCommand extends Command {
     private final Task task;
 

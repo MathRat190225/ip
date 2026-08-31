@@ -1,10 +1,10 @@
 package morgan.task;
 
-import morgan.exception.MorganException;
-
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.time.LocalDate;
+
+import morgan.exception.MorganException;
 
 /**
  * Represents the list of tasks in Morgan application.

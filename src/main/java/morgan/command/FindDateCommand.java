@@ -1,11 +1,14 @@
 package morgan.command;
 
+import java.time.LocalDate;
+
 import morgan.storage.Storage;
 import morgan.task.TaskList;
 import morgan.ui.Ui;
 
-import java.time.LocalDate;
-
+/**
+ * Represents a command in the application.
+ */
 public class FindDateCommand extends Command {
     private final LocalDate targetDate;
 

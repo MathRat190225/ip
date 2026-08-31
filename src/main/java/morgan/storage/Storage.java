@@ -1,16 +1,16 @@
 package morgan.storage;
 
-import morgan.task.Deadline;
-import morgan.task.Event;
-import morgan.task.Task;
-import morgan.task.ToDo;
-
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+
+import morgan.task.Deadline;
+import morgan.task.Event;
+import morgan.task.Task;
+import morgan.task.ToDo;
 
 /**
  * Saves the chat automatically into a file.
@@ -94,7 +94,8 @@ public class Storage {
             return "D | " + isDoneStr + " | " + d.getName() + " | " + d.getDateForStorage();
         } else if (task instanceof Event) {
             Event e = (Event) task;
-            return "E | " + isDoneStr + " | " + e.getName() + " | " + e.getStartForStorage() + " | " + e.getEndForStorage();
+            return "E | " + isDoneStr + " | " + e.getName() + " | "
+                    + e.getStartForStorage() + " | " + e.getEndForStorage();
         }
         return "";
     }

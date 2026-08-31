@@ -1,13 +1,15 @@
 package morgan.command;
 
-import morgan.exception.MorganException;
+import java.util.List;
+
 import morgan.storage.Storage;
 import morgan.task.Task;
 import morgan.task.TaskList;
 import morgan.ui.Ui;
 
-import java.util.List;
-
+/**
+ * Represents a command in the application.
+ */
 public class FindKeywordCommand extends Command {
     private final String keyword;
 
