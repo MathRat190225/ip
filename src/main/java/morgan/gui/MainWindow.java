@@ -63,5 +63,19 @@ public class MainWindow extends AnchorPane {
                 DialogBox.getMorganDialog(response, morganImage, commandType)
         );
         userInput.clear();
+
+        if (morgan.isExit()) {
+            userInput.setDisable(true);
+            sendButton.setDisable(true);
+
+            new Thread(() -> {
+                try {
+                    Thread.sleep(1500);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                javafx.application.Platform.exit();
+            }).start();
+        }
     }
 }

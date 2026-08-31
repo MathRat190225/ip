@@ -16,6 +16,7 @@ public class Morgan {
     private final Ui ui;
     private TaskList tasks;
     private String commandType;
+    private boolean isExit = false;
 
     /**
      * Constructs a new Morgan instance using the default data storage path.
@@ -49,7 +50,7 @@ public class Morgan {
     public String getResponse(String input) {
         try {
             Command c = Parser.parse(input);
-            boolean isExit = c.execute(tasks, ui, storage);
+            this.isExit = c.execute(tasks, ui, storage);
             commandType = c.getClass().getSimpleName();
 
             if (isExit) {
@@ -67,5 +68,9 @@ public class Morgan {
 
     public String getCommandType() {
         return commandType;
+    }
+
+    public boolean isExit() {
+        return isExit;
     }
 }
