@@ -3,6 +3,7 @@ package morgan.task;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import morgan.exception.MorganException;
 
@@ -116,13 +117,9 @@ public class TaskList {
      * @return The tasks happen on the date.
      */
     public List<Task> findTasksOnDate(LocalDate date) {
-        List<Task> result = new ArrayList<>();
-        for (Task task : tasks) {
-            if (task.isOnDate(date)) {
-                result.add(task);
-            }
-        }
-        return result;
+        return tasks.stream()
+                .filter(task -> task.isOnDate(date))
+                .collect(Collectors.toList());
     }
 
     /**
@@ -132,12 +129,8 @@ public class TaskList {
      * @return A list of tasks matching the search keyword.
      */
     public List<Task> findTaskWithKeyword(String keyword) {
-        List<Task> result = new ArrayList<>();
-        for (Task task : tasks) {
-            if (task.getName().contains(keyword)) {
-                result.add(task);
-            }
-        }
-        return result;
+        return tasks.stream()
+                .filter(task -> task.getName().contains(keyword))
+                .collect(Collectors.toList());
     }
 }
