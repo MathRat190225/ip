@@ -53,7 +53,7 @@ test {
 }
 
 application {
-    mainClass = 'morgan.Morgan'
+    mainClass = 'morgan.Launcher'
 }
 
 jar {
