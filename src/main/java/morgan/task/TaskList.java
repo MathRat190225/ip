@@ -27,6 +27,8 @@ public class TaskList {
      * @param tasks A list of Task objects to populate the list.
      */
     public TaskList(List<Task> tasks) {
+        assert tasks != null : "Task list should not be null";
+        assert !tasks.contains(null) : "Task list should not contain null tasks";
         this.tasks = tasks;
     }
 
@@ -68,6 +70,7 @@ public class TaskList {
      * @param task The task object to be added.
      */
     public void add(Task task) {
+        assert task != null : "Task to add should not be null";
         tasks.add(task);
     }
 
@@ -117,6 +120,7 @@ public class TaskList {
      * @return The tasks happen on the date.
      */
     public List<Task> findTasksOnDate(LocalDate date) {
+        assert date != null : "Search date should not be null";
         return tasks.stream()
                 .filter(task -> task.isOnDate(date))
                 .collect(Collectors.toList());
@@ -129,6 +133,7 @@ public class TaskList {
      * @return A list of tasks matching the search keyword.
      */
     public List<Task> findTaskWithKeyword(String keyword) {
+        assert keyword != null : "Search keyword should not be null";
         return tasks.stream()
                 .filter(task -> task.getName().contains(keyword))
                 .collect(Collectors.toList());

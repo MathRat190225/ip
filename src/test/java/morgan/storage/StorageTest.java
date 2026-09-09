@@ -4,12 +4,14 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
 import morgan.task.Deadline;
 import morgan.task.Event;
@@ -19,6 +21,10 @@ import morgan.task.ToDo;
 public class StorageTest {
 
     private static final String TEST_FILE_PATH = "./data/test_morgan.txt";
+
+    @TempDir
+    private Path tempDirectory;
+
     private Storage storage;
 
     @BeforeEach
@@ -89,5 +95,16 @@ public class StorageTest {
         assertTrue(tasks.isEmpty());
         File file = new File(TEST_FILE_PATH);
         assertTrue(file.exists());
+    }
+
+    @Test
+    public void save_parentDirectoryMissing_createsDirectoryAndFile() {
+        Path nestedFile = tempDirectory.resolve("data").resolve("tasks.txt");
+        Storage nestedStorage = new Storage(nestedFile.toString());
+
+        nestedStorage.save(List.of(new ToDo("read book")));
+
+        assertTrue(nestedFile.toFile().exists());
+        assertEquals(1, nestedStorage.load().size());
     }
 }
