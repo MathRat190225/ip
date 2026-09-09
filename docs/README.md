@@ -20,6 +20,14 @@ Example: `keyword (optional arguments)`
 expected output
 ```
 
+## Sorting tasks
+
+Sort all tasks alphabetically by their descriptions. Letter case does not affect the order.
+
+Example: `sort`
+
+Morgan displays the complete task list in its new order and saves that order for the next session.
+
 ## Feature ABC
 
 // Feature details
