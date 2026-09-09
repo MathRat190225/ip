@@ -1,5 +1,6 @@
 package morgan.gui;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
@@ -13,6 +14,10 @@ import morgan.Morgan;
  * Controller for the main GUI.
  */
 public class MainWindow extends AnchorPane {
+    private static final long EXIT_DELAY_MILLIS = 1500;
+    private static final String USER_IMAGE_PATH = "/images/User.png";
+    private static final String MORGAN_IMAGE_PATH = "/images/Morgan.png";
+
     @FXML
     private ScrollPane scrollPane;
     @FXML
@@ -24,8 +29,8 @@ public class MainWindow extends AnchorPane {
 
     private Morgan morgan;
 
-    private Image userImage = new Image(this.getClass().getResourceAsStream("/images/User.png"));
-    private Image morganImage = new Image(this.getClass().getResourceAsStream("/images/Morgan.png"));
+    private final Image userImage = new Image(getClass().getResourceAsStream(USER_IMAGE_PATH));
+    private final Image morganImage = new Image(getClass().getResourceAsStream(MORGAN_IMAGE_PATH));
 
     /**
      * Initializes the main window.
@@ -65,17 +70,30 @@ public class MainWindow extends AnchorPane {
         userInput.clear();
 
         if (morgan.isExit()) {
-            userInput.setDisable(true);
-            sendButton.setDisable(true);
-
-            new Thread(() -> {
-                try {
-                    Thread.sleep(1500);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                javafx.application.Platform.exit();
-            }).start();
+            disableInputAndScheduleExit();
         }
+    }
+
+    /**
+     * Prevents further input and schedules the application to exit after displaying the goodbye message.
+     */
+    private void disableInputAndScheduleExit() {
+        userInput.setDisable(true);
+        sendButton.setDisable(true);
+
+        Thread exitThread = new Thread(this::exitAfterDelay);
+        exitThread.start();
+    }
+
+    /**
+     * Waits briefly before closing the application so the user can read the goodbye message.
+     */
+    private void exitAfterDelay() {
+        try {
+            Thread.sleep(EXIT_DELAY_MILLIS);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+        Platform.exit();
     }
 }
