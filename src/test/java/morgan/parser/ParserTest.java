@@ -6,12 +6,18 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
+import morgan.command.SortCommand;
 import morgan.exception.MorganException;
 import morgan.storage.Storage;
 import morgan.task.TaskList;
 import morgan.ui.Ui;
 
 public class ParserTest {
+
+    @Test
+    public void parse_sortCommand_returnsSortCommand() throws MorganException {
+        assertTrue(Parser.parse("sort") instanceof SortCommand);
+    }
 
     @Test
     public void parseAndExecute_byeCommand_returnsTrue() throws MorganException {

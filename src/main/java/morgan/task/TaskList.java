@@ -2,6 +2,7 @@ package morgan.task;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -111,6 +112,13 @@ public class TaskList {
         Task task = get(index);
         task.unmark();
         return task;
+    }
+
+    /**
+     * Sorts tasks alphabetically by their descriptions, ignoring letter case.
+     */
+    public void sortByName() {
+        tasks.sort(Comparator.comparing(Task::getName, String.CASE_INSENSITIVE_ORDER));
     }
 
     /**

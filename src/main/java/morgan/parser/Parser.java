@@ -15,6 +15,7 @@ import morgan.command.FindDateCommand;
 import morgan.command.FindKeywordCommand;
 import morgan.command.ListCommand;
 import morgan.command.MarkCommand;
+import morgan.command.SortCommand;
 import morgan.exception.MorganException;
 import morgan.storage.Storage;
 import morgan.task.Deadline;
@@ -46,6 +47,7 @@ public class Parser {
         COMMAND_MAP.put("event", Parser::parseEvent);
         COMMAND_MAP.put("dates", Parser::parseDates);
         COMMAND_MAP.put("find", Parser::parseFind);
+        COMMAND_MAP.put("sort", args -> new SortCommand());
     }
 
     /**
