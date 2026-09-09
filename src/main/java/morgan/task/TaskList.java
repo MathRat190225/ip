@@ -3,6 +3,7 @@ package morgan.task;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import morgan.exception.MorganException;
 
@@ -120,13 +121,9 @@ public class TaskList {
      */
     public List<Task> findTasksOnDate(LocalDate date) {
         assert date != null : "Search date should not be null";
-        List<Task> result = new ArrayList<>();
-        for (Task task : tasks) {
-            if (task.isOnDate(date)) {
-                result.add(task);
-            }
-        }
-        return result;
+        return tasks.stream()
+                .filter(task -> task.isOnDate(date))
+                .collect(Collectors.toList());
     }
 
     /**
@@ -137,12 +134,8 @@ public class TaskList {
      */
     public List<Task> findTaskWithKeyword(String keyword) {
         assert keyword != null : "Search keyword should not be null";
-        List<Task> result = new ArrayList<>();
-        for (Task task : tasks) {
-            if (task.getName().contains(keyword)) {
-                result.add(task);
-            }
-        }
-        return result;
+        return tasks.stream()
+                .filter(task -> task.getName().contains(keyword))
+                .collect(Collectors.toList());
     }
 }

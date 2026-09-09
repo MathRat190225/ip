@@ -107,7 +107,13 @@ public class Storage {
      * @param tasks The list of tasks to be saved.
      */
     public void save(List<Task> tasks) {
-        try (FileWriter fw = new FileWriter(filePath)) {
+        File file = new File(filePath);
+        File parentDirectory = file.getParentFile();
+        if (parentDirectory != null) {
+            parentDirectory.mkdirs();
+        }
+
+        try (FileWriter fw = new FileWriter(file)) {
             for (Task task : tasks) {
                 String line = toFileFormat(task);
                 fw.write(line + System.lineSeparator());
