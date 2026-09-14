@@ -8,7 +8,7 @@ import java.time.LocalDate;
  */
 public class Task {
     protected String name;
-    protected boolean flag;
+    protected boolean isDone;
 
     /**
      * Constructs a Task instance with specified name.
@@ -17,7 +17,7 @@ public class Task {
      */
     public Task(String name) {
         this.name = name;
-        this.flag = false;
+        this.isDone = false;
     }
 
     /**
@@ -34,14 +34,14 @@ public class Task {
      * Marks the task as done.
      */
     public void mark() {
-        this.flag = true;
+        this.isDone = true;
     }
 
     /**
      * Marks the task as undone.
      */
     public void unmark() {
-        this.flag = false;
+        this.isDone = false;
     }
 
     /**
@@ -50,7 +50,7 @@ public class Task {
      * @return True if the task is done, otherwise false.
      */
     public boolean isDone() {
-        return this.flag;
+        return this.isDone;
     }
 
     /**
@@ -64,7 +64,7 @@ public class Task {
 
     @Override
     public String toString() {
-        String mark = flag ? "X" : " ";
+        String mark = isDone ? "X" : " ";
         return String.format("[%s] %s", mark, name);
     }
 }

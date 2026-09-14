@@ -76,7 +76,7 @@ public class Parser {
     }
 
     /**
-     * Legacy compatible parseAndExecute method.
+     * Parses the input and executes the resulting command.
      */
     public static boolean parseAndExecute(String input, TaskList tasks, Ui ui, Storage storage) throws MorganException {
         Command command = parse(input);
