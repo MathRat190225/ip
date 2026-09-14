@@ -40,7 +40,8 @@ public class ParserTest {
         });
 
 
-        assertEquals("Meow? Is that a fish?", exception.getMessage());
+        assertEquals("Meow? Is that a fish? Try list, todo, deadline, event, find, sort, or bye.",
+                exception.getMessage());
     }
 
     @Test
@@ -53,6 +54,6 @@ public class ParserTest {
             Parser.parseAndExecute("todo ", tasks, ui, storage);
         });
 
-        assertEquals("Meow? Is that a fish?", exception.getMessage());
+        assertEquals("Meow? Tell me what to add, e.g., todo have a nice sleep.", exception.getMessage());
     }
 }
