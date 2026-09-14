@@ -37,8 +37,8 @@ public class Parser {
     private static final Map<String, CommandFunction> COMMAND_MAP = new HashMap<>();
 
     static {
-        COMMAND_MAP.put("bye", args -> new ExitCommand());
-        COMMAND_MAP.put("list", args -> new ListCommand());
+        COMMAND_MAP.put("bye", args -> parseNoArgument(args, new ExitCommand()));
+        COMMAND_MAP.put("list", args -> parseNoArgument(args, new ListCommand()));
         COMMAND_MAP.put("mark", args -> new MarkCommand(parseIndex(args), true));
         COMMAND_MAP.put("unmark", args -> new MarkCommand(parseIndex(args), false));
         COMMAND_MAP.put("delete", args -> new DeleteCommand(parseIndex(args)));
@@ -47,7 +47,7 @@ public class Parser {
         COMMAND_MAP.put("event", Parser::parseEvent);
         COMMAND_MAP.put("dates", Parser::parseDates);
         COMMAND_MAP.put("find", Parser::parseFind);
-        COMMAND_MAP.put("sort", args -> new SortCommand());
+        COMMAND_MAP.put("sort", args -> parseNoArgument(args, new SortCommand()));
     }
 
     /**
@@ -94,6 +94,22 @@ public class Parser {
         }
     }
 
+    /**
+     * Validates that a command which takes no arguments is used on its own.
+     *
+     * @param args Arguments entered after the command word.
+     * @param command Command to return when no arguments are present.
+     * @return The validated command.
+     * @throws MorganException If unexpected arguments are present.
+     */
+    private static Command parseNoArgument(String args, Command command) throws MorganException {
+        if (!args.isEmpty()) {
+            throw new MorganException(
+                    "Meow? This command needs no extra treats. Please use it on its own.");
+        }
+        return command;
+    }
+
     private static Command parseTodo(String args) throws MorganException {
         if (args.isEmpty()) {
             throw new MorganException("Meow? Tell me what to add, e.g., todo have a nice sleep.");
@@ -115,13 +131,34 @@ public class Parser {
     }
 
     private static Command parseEvent(String args) throws MorganException {
-        String[] parts = args.split(" /(from|to) ");
-        if (parts.length < 3 || parts[0].trim().isEmpty()) {
+        if (args.isEmpty() || args.startsWith("/from ") || args.startsWith("/to ")) {
             throw new MorganException(
-                    "Meow? Tell me what to add, e.g., event fish party /from 2026-09-18 1400 /to 2026-09-18 1600.");
+                    "Meow? Tell me what event to add, e.g., event fish party "
+                            + "/from 2026-08-31 1400 /to 2026-08-31 1600.");
         }
+
+        int fromIndex = args.indexOf(" /from ");
+        int toIndex = args.indexOf(" /to ");
+        boolean hasValidStructure = fromIndex > 0
+                && toIndex > fromIndex + " /from ".length()
+                && toIndex + " /to ".length() < args.length()
+                && args.indexOf(" /from ", fromIndex + 1) == -1
+                && args.indexOf(" /to ", toIndex + 1) == -1;
+
+        if (!hasValidStructure) {
+            throw new MorganException(
+                    "Meow? An event needs one /from and one /to, in that order.");
+        }
+
+        String name = args.substring(0, fromIndex).trim();
+        String start = args.substring(fromIndex + " /from ".length(), toIndex).trim();
+        String end = args.substring(toIndex + " /to ".length()).trim();
         try {
-            return new AddCommand(new Event(parts[0].trim(), parts[1].trim(), parts[2].trim()));
+            Event event = new Event(name, start, end);
+            if (!event.getEnd().isAfter(event.getStart())) {
+                throw new MorganException("Meow? Morgan doesn't think you can do time traveling.");
+            }
+            return new AddCommand(event);
         } catch (DateTimeParseException e) {
             throw new MorganException("Meow! Please use date format: yyyy-MM-dd HHmm (e.g., 2026-08-31 1400)");
         }
