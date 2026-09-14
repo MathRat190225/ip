@@ -69,7 +69,7 @@ public class Parser {
 
         CommandFunction fn = COMMAND_MAP.get(commandWord);
         if (fn == null) {
-            throw new MorganException("Meow? Is that a fish?");
+            throw new MorganException("Meow? Is that a fish? Try list, todo, deadline, event, find, sort, or bye.");
         }
 
         return fn.parse(arguments);
@@ -96,7 +96,7 @@ public class Parser {
 
     private static Command parseTodo(String args) throws MorganException {
         if (args.isEmpty()) {
-            throw new MorganException("Meow? Is that a fish?");
+            throw new MorganException("Meow? Tell me what to add, e.g., todo have a nice sleep.");
         }
         return new AddCommand(new ToDo(args));
     }
@@ -104,7 +104,8 @@ public class Parser {
     private static Command parseDeadline(String args) throws MorganException {
         String[] parts = args.split(" /by ");
         if (parts.length < 2 || parts[0].trim().isEmpty()) {
-            throw new MorganException("Meow? Is that a fish?");
+            throw new MorganException(
+                    "Meow? Tell me what to add, e.g., deadline catch Jerry the mouse /by 2026-09-18.");
         }
         try {
             return new AddCommand(new Deadline(parts[0].trim(), parts[1].trim()));
@@ -116,7 +117,8 @@ public class Parser {
     private static Command parseEvent(String args) throws MorganException {
         String[] parts = args.split(" /(from|to) ");
         if (parts.length < 3 || parts[0].trim().isEmpty()) {
-            throw new MorganException("Meow? Is that a fish?");
+            throw new MorganException(
+                    "Meow? Tell me what to add, e.g., event fish party /from 2026-09-18 1400 /to 2026-09-18 1600.");
         }
         try {
             return new AddCommand(new Event(parts[0].trim(), parts[1].trim(), parts[2].trim()));
